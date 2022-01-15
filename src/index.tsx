@@ -4,7 +4,7 @@ import Root from './app/index';
 import {createStore, combineReducers} from "redux";
 import {Provider} from "react-redux";
 import loadingReducer from "./app/modules/loading";
-import Loading from "./app/containers/loading/loading";
+import Loading from "./app/containers/loading/Loading";
 
 const rootReducer = combineReducers({
     loadingReducer: loadingReducer
