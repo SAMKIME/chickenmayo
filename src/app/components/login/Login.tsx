@@ -25,10 +25,17 @@ const LoginSection = styled.div`
   background-color: #ffffff;
   border-radius: 0.75rem;
   box-shadow: 6px 8px 17px rgba(18, 18, 18, 0.5);
+  @media screen and (max-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+    border-radius: inherit;
+    box-shadow: none;
+  }
 
   div {
     text-align: center;
   }
+
   .login-title {
     .title {
       font-size: 1.5rem;
@@ -48,7 +55,7 @@ const LoginSection = styled.div`
 
   .login-btn {
     margin-top: 3.75rem;
-    
+
     button {
       font-family: Spoqa Han Sans Neo, sans-serif;
       font-size: 1rem;
@@ -58,7 +65,7 @@ const LoginSection = styled.div`
       height: 3.75rem;
       text-align: left;
       padding-left: 4.2rem;
-      border: 1px solid #DEE0E2;
+      //border: 1px solid #DEE0E2;
       border-radius: 0.75rem;
       cursor: pointer;
     }
