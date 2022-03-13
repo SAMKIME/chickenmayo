@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../common/Header";
@@ -216,6 +216,12 @@ const ContentWrap = styled.div`
 const Main = () => {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return () => {
+        }
+    }, []);
+
     const renderFindTeamList = () => {
         let temp = Array(8).fill(0);
         return (
@@ -234,7 +240,7 @@ const Main = () => {
 
     return (
         <>
-            <Header/>
+            <Header fixed={true}/>
             <main>
                 <ContentWrap>
                     <div className="search-wrap">
@@ -265,7 +271,7 @@ const Main = () => {
                             </ul>
                         </div>
                         <div className="btn-wrap">
-                            <button type="button">축구 팀 더보기</button>
+                            <button type="button" onClick={() => navigate("/team/list")}>축구 팀 더보기</button>
                         </div>
                     </div>
                 </ContentWrap>

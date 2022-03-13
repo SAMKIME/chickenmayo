@@ -75,17 +75,17 @@ const SearchBarWrap = styled.div`
 `;
 
 const SearchBar = () => {
-    const [searchValue, setSearcVhalue] = useState<string>("");
+    const [searchText, setSearchText] = useState<string>("");
 
     return (
         <SearchBarWrap>
             <input type="text"
-                   id="search"
+                   id="searchText"
                    placeholder="# 관심 있는 스포츠를 검색해보세요."
                    autoComplete="off"
                    maxLength={16}
-                   value={searchValue}
-                   onChange={(e) => setSearcVhalue(e.target.value)}
+                   value={searchText}
+                   onChange={(e) => setSearchText(e.target.value)}
             />
             <figure className="search-btn">
                 <img src={BtnSearch}/>

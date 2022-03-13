@@ -1,5 +1,5 @@
 import React, {useState, useRef, useMemo} from "react";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 import Header from "../common/Header";
 import SelectAreaModal from "../common/SelectArea";
@@ -233,22 +233,20 @@ const TeamRegister = () => {
     const validationCheck = () => {
         const {name, place, image, sports} = teamData;
 
-        let msg: string = "";
-        const regExp = /[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g;
-
+        let checkMsg: string = "";
         if (sports < 0) {
-            msg = "함께하고 싶은 스포츠를 선택해주세요.";
+            checkMsg = "함께하고 싶은 스포츠를 선택해주세요.";
         } else if (!name) {
-            msg = "팀 이름을 입력해주세요.";
-        } else if (regExp.test(name)) {
-            msg = "팀 이름에 특수문자를 포함할 수 없습니다.";
+            checkMsg = "팀 이름을 입력해주세요.";
+        } else if ((/[^a-z|A-Z|0-9|ㄱ-ㅎ|가-힣]/g).test(name)) {
+            checkMsg = "팀 이름에 특수문자를 포함할 수 없습니다.";
         } else if (place < 0) {
-            msg = "지역을 선택해주세요.";
+            checkMsg = "지역을 선택해주세요.";
         } else if (image === "") {
-            msg = "대표 이미지를 업로드해주세요.";
+            checkMsg = "대표 이미지를 업로드해주세요.";
         }
-        if (msg) {
-            alert(msg);
+        if (checkMsg) {
+            alert(checkMsg);
         } else {
             //todo 팀 생성 처리
         }

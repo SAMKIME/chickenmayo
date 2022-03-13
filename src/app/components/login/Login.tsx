@@ -100,7 +100,7 @@ const Login = () => {
                         <span className="title">스포츠 전문 커뮤니티 슬럽에 <br/>오신 것을 환영합니다!</span>
                     </div>
                     <div className="login-btn">
-                        <button type="button" className="btn-kakao">카카오톡 계정으로 로그인</button>
+                        <button type="button" className="btn-kakao" onClick={() => window.open("http://localhost:3000/team/register")}>카카오톡 계정으로 로그인</button>
                         <button type="button" className="btn-naver">네이버 아이디로 로그인</button>
                     </div>
                 </div>

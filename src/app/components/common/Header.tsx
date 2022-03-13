@@ -66,6 +66,7 @@ const UtilWrap = styled.ul`
 
   .btn_alarm {
     cursor: pointer;
+
     img {
       width: 1.875rem;
       height: 1.875rem;
@@ -74,6 +75,7 @@ const UtilWrap = styled.ul`
 
   .btn_info {
     cursor: pointer;
+
     img {
       width: 1.5rem;
       height: 1.5rem;
@@ -82,12 +84,16 @@ const UtilWrap = styled.ul`
 
 `;
 
-const Header = () => {
+interface HeaderProps {
+    fixed?: boolean;
+}
+
+const Header = ({fixed}: HeaderProps) => {
 
     return (
-        <HeaderWrap>
+        <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}}>
             <div className="logo">
-                <Link to={"/login"}>
+                <Link to={"/main"}>
                     <img src={HeaderLogo}/>
                 </Link>
             </div>
