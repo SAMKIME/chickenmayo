@@ -1,33 +1,30 @@
 import axios from 'axios';
+import * as Utils from "../containers/common/Utils";
 
 export const apiAxios = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
     }
 });
 
-function baseApi(apiUrl?: string) {
-    apiAxios.defaults.baseURL = apiUrl;
-    return apiAxios;
+function getAccessTokenHeader() {
+    const auth = 'Bearer' + ` ` + localStorage.getItem('access_token');
+    return { headers: { Authorization: auth } };
 }
-
-// function getAccessTokenHeader() {
-//     let auth = LocalStorage.getStorage(LocalStorage.AUTHORIZATION);
-//     return {headers: {'Authorization': auth ? auth : ""}}
-// }
 
 /**
  * default Api call function
  */
-// export function userInfo() {
-//     return new Promise((resolve, reject) => {
-//             return baseApi(apiPrefix).get('/user', getAccessTokenHeader())
-//                 .then((response) => {
-//                     successStatusCheck(response, resolve)
-//                 }).catch(err => {
-//                     failStatusCheck(err, reject)
-//                 });
-//         }
-//     )
-// }
+export const getUserInfo = async () => {
+    try {
+        return await apiAxios.get('/users', getAccessTokenHeader());
+    } catch (e) {
+        Utils.moveLogin();
+    }
+};
+
+export default {
+    getUserInfo
+}

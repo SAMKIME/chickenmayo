@@ -1,3 +1,9 @@
+export const moveLogin = () => {
+    localStorage.removeItem('access_token');
+    // todo 수정 사항
+    // history.push('/login');
+};
+
 /**
  * Image Size 조절하기
  * ---------------------------------------------------------------------------------------------------------------------
