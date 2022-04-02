@@ -1,40 +1,48 @@
-name: Node.js CI
+# This is a basic workflow to help you get started with Actions
 
-# 구독할 이벤트
+name: CI
+
+# Controls when the action will run.
 on:
-  push:
-    branches: [feature/SLUB-60]
-  pull_request:
-    branches: [master]
+  # Triggers the workflow on push or pull request events but only for the main branch
+push:
+  branches: [ feature/SLUB-60 ]
+pull_request:
+  branches: [ master ]
 
-# jobs 단위로 개별 서버(정확히는 Docker 컨테이너 단위라고 한다.)에서 작업이 수행된다.
-# 각 작업은 병렬로 실행 된다고 하는데, needs: build와 같이 표시해서 기다릴 수도 있다.
+  # Allows you to run this workflow manually from the Actions tab workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
-    # Ubuntu, Windows, MacOS를 지원한다.
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # node-version 과 같이 배열로 돼있으면, 해당 원소를 순회하면서 작업이 반복해서 실행된다.
-    strategy:
-      matrix:
-        node-version: [14.x] # 템플릿 기본값: [10.x, 12.x, 14.x]
-
-    # uses 개념은 다른 사람이 작성한 내용을 실행하는 개념이다.
-    # actions/checkout: GitHub의 마지막 커밋으로 Checkout 한다.
-    # actions/setup-node: Node.js를 설치한다.
-    # run 개념은 명령어를 실행한다. 셸 스크립트와 동일하다.
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+
+      - uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14.17.0
 
-      # npm ci는 npm install과 같은 기능을 수행한다.
-      - name : Install Dependencies
-        run: npm ci
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with: # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      # --if-present 옵션은 npm 스크립트가 존재할 때만 실행시키라는 의미이다.
-      # 만약 build 스크립트가 없는 경우, 오류 없이 지나간다.
-      - name : Generate Build
-        run: npm run build --if-present
+          restore-keys: | 
+            ${{ runner.os }}-build-${{ env.cache-name }}- 
+            ${{ runner.os }}-build- 
+            ${{ runner.os }}-
+
+        - name: npm install
+          run : npm insatll
+
+        - name: build
+          run : npm run build
