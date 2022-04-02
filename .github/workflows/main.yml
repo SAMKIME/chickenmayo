@@ -7,29 +7,43 @@ on:
     branches: [master]
 
 jobs:
+  # Build and unit test
   build:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [15.x]
-
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: "https://npm.pkg.github.com"
+          node-version: '14.x'
 
-      - name: Install dependencies
-        run: yarn install
-        env:
-          CI: true
+      - name: Determine npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
 
-      - name: Run Build
-        run: yarn build
+      - name: Restore npm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-      - name: Run Tests
-        run: yarn run test:ci
+      - name: install && build
+        run: npm ci
+
+#      - name: Prettier Format Check
+#        run: npm run format-check
+
+#      - name: ESLint Check
+#        run: npm run lint
+
+      - name: Build & Test
+        run: npm run test
