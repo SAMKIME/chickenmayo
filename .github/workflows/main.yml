@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: 14.17.0
 
+      - name : delete file
+        run: rm -rf package-lock.json
+
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -44,7 +47,6 @@ jobs:
 
       - name: npm install
         run : npm install
-              npm install -g react-scripts
 
       - name: build
         run: npm run build
