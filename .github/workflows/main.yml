@@ -3,7 +3,7 @@ name: Node.js CI
 # 구독할 이벤트
 on:
   push:
-    branches: [feat/SLUB-60]
+    branches: [feature/SLUB-60]
   pull_request:
     branches: [master]
 
@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          
+
       # npm ci는 npm install과 같은 기능을 수행한다.
       - name : Install Dependencies
         run: npm ci
