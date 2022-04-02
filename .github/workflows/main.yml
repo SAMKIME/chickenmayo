@@ -1,35 +1,36 @@
 name: React build
 on:
   push:
-    branches: feature/SLUB-60
+    branches: feat/SLUB-60
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v2
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        uses: actions/checkout@master
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Cache node modules      # node modules 캐싱
+        uses: actions/cache@v1
         with:
-          node-version: 14.x
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
-      - name: Install dependencies
+      - name: Install Dependencies    # 의존 파일 설치
         run: npm install
 
-#      - name: Test
-#        run: npm test
-#        env:
-#          CI: true
-
-      - name: Generate build
+      - name: Build                   # React Build
         run: npm run build
 
-      # Share artifact inside workflow
-      - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v1
-        with:
-          name: react-github-actions-build
-          path: build
+#      - name: Deploy                  # S3에 배포하기
+#        env:
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#        run: |
+#          aws s3 cp \
+#            --recursive \
+#            --region ap-northeast-2 \
+#            build s3://github-action-tutorial # 자신의 레포지토리로 변경해주세요.
