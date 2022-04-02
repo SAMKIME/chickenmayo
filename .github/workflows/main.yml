@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: npm install
-        run : npm insatll
+        run : npm install
               npm install -g react-scripts
 
       - name: build
