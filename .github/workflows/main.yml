@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-    
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -30,11 +30,6 @@ jobs:
 
       - name : Install Dependencise
         run : npm install
-
-      - name : Test
-        run : npm test
-        env :
-          CI : true
-
+        
       - name : Generate Build
         run : npm run build
