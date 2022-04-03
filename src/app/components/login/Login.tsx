@@ -112,9 +112,6 @@ const Login = () => {
             const params = new URLSearchParams(location);
             let token = params.get('token');
             if (token) {
-                // if (token.charAt(token.length - 1) === '#') {
-                //     token = token.slice(0, token.length - 2);
-                // }
                 localStorage.setItem('access_token', token);
                 navigate("/");
                 // if (process.env.NODE_ENV === 'production') window.location.href = `https://slub.kr`;
