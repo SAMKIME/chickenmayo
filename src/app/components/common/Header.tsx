@@ -11,12 +11,17 @@ const HeaderWrap = styled.div`
   height: 3.75rem;
   left: 0;
   top: 0;
-  background: #F8F9FA;
+  background-color: #F8F9FA;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(165, 170, 178, 0.3);
   z-index: 9999;
+
+
+  &.team { //## 팀 헤더
+    background-color: #364554;
+  }
 
   .logo {
     margin: 0 auto;
@@ -81,17 +86,17 @@ const UtilWrap = styled.ul`
       height: 1.5rem;
     }
   }
-
 `;
 
 interface HeaderProps {
     fixed?: boolean;
+    teamHeaderClass?: boolean;
 }
 
-const Header = ({fixed}: HeaderProps) => {
+const Header = ({fixed, teamHeaderClass}: HeaderProps) => {
 
     return (
-        <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}}>
+        <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}} className={teamHeaderClass ? " team" : ""}>
             <div className="logo">
                 <Link to={"/main"}>
                     <img src={HeaderLogo}/>
