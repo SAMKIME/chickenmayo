@@ -24,6 +24,12 @@ jobs:
       #          restore-keys: |
       #                        ${{ runner.os }}-node-
 
+      # Node 14.x를 사용한다.
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '15.x'
+
       - name: npm install
         run: npm install
 
@@ -50,11 +56,7 @@ jobs:
             })
           if: failure()
 
-#      # Node 14.x를 사용한다.
-#      - name: Use Node.js
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: '15.x'
+
 #
 #      # 모듈을 설치한다.
 #      - name: Install packages
