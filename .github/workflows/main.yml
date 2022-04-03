@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '14.x'
 
-      -name: clean cache
+      - name: clean cache
        run: npm cache clean --force
 
       - name: install
