@@ -35,7 +35,7 @@ jobs:
           CI: ""
 
       - name: Make zip file           # build 내용 zip 파일 압축
-        run: zip --qq -r./build-fe.zip .
+        run: zip -qq -r./build-fe.zip .
         shell: bash
 
       - name: Configure AWS credentials
