@@ -1,5 +1,7 @@
-name: CI Build
+# Workflow 이름
+name: Fronted Deploy
 
+# Event 감지
 on:
   push:
     branches: [feature/SLUB-60]
@@ -8,16 +10,28 @@ on:
 
 env:
   S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+  PROJECT_NAME: chickenmayo
 
+# job 설정
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code.   # 레포지토리 체크아웃
+      # Repository Checkout
+      - name: Checkout source code.
         uses: actions/checkout@master
 
-      - name: Cache node modules      # node modules 캐싱
+      # Node version Check
+      - name: Check Node Version
+        run: node -v
+
+      # Install Dependencies
+      - name: Install Dependencies
+        run: npm install --fronzen-lockfile
+
+      # node modules caching
+      - name: Cache node modules
         uses: actions/cache@v1
         with:
           path: node_modules
@@ -26,18 +40,17 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
 
-      - name: Install Dependencies    # 의존 파일 설치
-        run: npm install
-
-      - name: Build                   # React Build
+      # React Build
+      - name: Build
         run: unset CI && npm run build
-        env:
-          CI: ""
 
-      - name: Make zip file           # build 내용 zip 파일 압축
-        run: zip -qq -r ./build-fe.zip .
+      # Make build zip file
+      # $GITHUB_SHA : Github action 기본 환경변수, 배포될때 zip파일 이름을 다르게하기위해 사용
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
 
+      # AWS cli credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -45,19 +58,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Upload to S3            # S3 버킷 /react-front build 파일 업로드
+      # Upload build zip file to S3
+      - name: Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: | 
-          aws s3 cp --region $AWS_REGION ./build-fe.zip s3://$S3_BUCKET_NAME/react-front/./build-fe.zip
-#        run: aws s3 cp --recursive --region $AWS_REGION build s3://$S3_BUCKET_NAME # 정적 페이지 업로드시
+          aws s3 cp --region $AWS_REGION ./build_client.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
-      - name: Deploy # Deploy to EC2
+      # Deploy to EC2
+      - name: Deploy
         run: aws deploy create-deployment
-          --application-name slub
+          --application-name slub-client
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name frontend-react-master
-          --s3-location bucket=$S3_BUCKET_NAME,key=react-front/./build-fe.zip,bundleType=zip
+          --deployment-group-name develop
+          --s3-location bucket=$S3_BUCKET_NAME,key=$PROJECT_NAME/$GITHUB_SHA.zip,bundleType=zip
 

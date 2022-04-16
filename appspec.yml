@@ -3,12 +3,12 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/deploy-fe
+    destination: /home/ubuntu/chickenmayo
 
 permissions:
-  - object: /home/ubuntu/deploy-fe
-    owner: ubuntu
-    group: ubuntu
+  - object: /home/ubuntu/chickenmayo
+    owner: root
+    group: root
     mode: 755
 
 hooks:
