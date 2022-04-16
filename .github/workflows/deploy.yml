@@ -34,11 +34,7 @@ jobs:
       - name: node.js ${{matrix.node-version}}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{matrix.node-version}}
-
-      # Node version Check
-      - name: Check Node Version
-        run: node -v
+          node-version: ${{matrix.node-version}
 
       # Install Dependencies
       - name: Install Dependencies
