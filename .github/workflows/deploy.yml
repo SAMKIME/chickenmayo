@@ -83,5 +83,5 @@ jobs:
           --application-name slub-client
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name develop
-          --s3-location bucket=$S3_BUCKET_NAME, key=$PROJECT_NAME/$GITHUB_SHA.zip, bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME,key=$PROJECT_NAME/$GITHUB_SHA.zip,bundleType=zip
 
