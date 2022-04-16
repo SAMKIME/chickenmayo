@@ -16,11 +16,25 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: client
+
+    strategy:
+      matrix:
+        node-version: [14.17.0]
 
     steps:
       # Repository Checkout
       - name: Checkout source code.
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+
+      # node v14.17.0 install
+      - name: node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
 
       # Node version Check
       - name: Check Node Version
@@ -73,5 +87,5 @@ jobs:
           --application-name slub-client
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name develop
-          --s3-location bucket=$S3_BUCKET_NAME,key=$PROJECT_NAME/$GITHUB_SHA.zip,bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME, key=$PROJECT_NAME/$GITHUB_SHA.zip, bundleType=zip
 
