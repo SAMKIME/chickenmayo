@@ -47,7 +47,7 @@ jobs:
       # Make build zip file
       # $GITHUB_SHA : Github action 기본 환경변수, 배포될때 zip파일 이름을 다르게하기위해 사용
       - name: Make zip file
-        run: zip -qq -r ./build-fe.zip .
+        run: zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
 
       # AWS cli credentials
@@ -65,7 +65,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: | 
-          aws s3 cp --region $AWS_REGION ./build-fe.zip s3://$S3_BUCKET_NAME/chickenmayo/build-fe.zip
+          aws s3 cp --region $AWS_REGION ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
       # Deploy to EC2
       - name: Deploy
@@ -73,5 +73,5 @@ jobs:
           --application-name slub-client
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name develop
-          --s3-location bucket=$S3_BUCKET_NAME,key=chickenmayo/build-fe.zip,bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME,key=$PROJECT_NAME/$GITHUB_SHA.zip,bundleType=zip
 
