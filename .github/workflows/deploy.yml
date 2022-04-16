@@ -16,10 +16,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: client
 
     strategy:
       matrix:
@@ -35,6 +31,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
+
+      # Node version Check
+      - name: Check Node Version
+        run: node -v
 
       # Install Dependencies
       - name: Install Dependencies
