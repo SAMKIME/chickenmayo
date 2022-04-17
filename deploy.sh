@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 echo "> FE 배포"
 
-echo "> 작업 시작"
-# npm start
+echo "> cd /home/ubuntu/chickenmayo"
+cd /home/ubuntu/chickenmayo
+
+echo "> npm start"
 sudo npm start
