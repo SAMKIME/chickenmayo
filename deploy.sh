@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 echo "> FE 배포"
 
-# 해야되는 작업 작성
+echo "> 작업 시작"
+# npm start
+sudo npm start
