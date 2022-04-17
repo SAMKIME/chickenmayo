@@ -38,7 +38,7 @@ jobs:
 
       # Install Dependencies
       - name: Install Dependencies
-        run: npm install --fronzen-lockfile
+        run: npm install
 
       # node modules caching
       - name: Cache node modules
