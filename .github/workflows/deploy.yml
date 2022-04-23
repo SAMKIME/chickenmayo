@@ -37,8 +37,8 @@ jobs:
         run: node -v
 
       # Install Dependencies
-      - name: Install Dependencies
-        run: npm install
+#      - name: Install Dependencies
+#        run: npm install
 
       # node modules caching
       - name: Cache node modules
