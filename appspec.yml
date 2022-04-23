@@ -4,15 +4,16 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/chickenmayo
+    overwrite: yes
 
 permissions:
   - object: /home/ubuntu/chickenmayo
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
     mode: 755
 
 hooks:
   AfterInstall:
     - location: deploy.sh
       timeout: 180
-      runas: root
+      runas: ubuntu
