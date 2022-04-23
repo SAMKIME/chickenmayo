@@ -3,12 +3,13 @@ os: linux
 
 files:
   - source: /
-    destination: /mnt/chickenmayo
+    destination: /home/ubuntu/chickenmayo
+    overwrite: yes
 
 permissions:
-  - object: /mnt/chickenmayo
-    owner: root
-    group: root
+  - object: /home/ubuntu/chickenmayo
+    owner: ubuntu
+    group: ubuntu
     mode: 755
 
 hooks:
