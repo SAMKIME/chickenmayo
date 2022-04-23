@@ -5,7 +5,7 @@ echo "> cd /home/ubuntu/chickenmayo"
 cd /home/ubuntu/chickenmayo
 
 echo "> node_modules install"
-#sudo rm -rf /node_modules
+sudo rm -rf /node_modules
 sudo npm install
 
 echo "> npm start"

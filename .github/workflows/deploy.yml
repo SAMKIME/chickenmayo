@@ -19,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.17.0]
+        node-version: [v14.17.0]
 
     steps:
       # Repository Checkout
@@ -37,8 +37,8 @@ jobs:
         run: node -v
 
       # Install Dependencies
-#      - name: Install Dependencies
-#        run: npm install
+      - name: Install Dependencies
+        run: npm install
 
       # node modules caching
       - name: Cache node modules
