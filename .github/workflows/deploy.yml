@@ -1,0 +1,85 @@
+# Workflow 이름
+name: Fronted Deploy
+
+# Event 감지
+on:
+  pull_request:
+    branches: [master]
+
+env:
+  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+  PROJECT_NAME: chickenmayo
+
+# job 설정
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.17.0]
+
+    steps:
+      # Repository Checkout
+      - name: Checkout source code.
+        uses: actions/checkout@v2
+
+      # node v14.17.0 install
+      - name: node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
+
+      # Node version Check
+      - name: Check Node Version
+        run: node -v
+
+      # Install Dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # node modules caching
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      # React Build
+      - name: Build
+        run: unset CI && npm run build
+
+      # Make build zip file
+      # $GITHUB_SHA : Github action 기본 환경변수, 배포될때 zip파일 이름을 다르게하기위해 사용
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      # AWS cli credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Upload build zip file to S3
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: | 
+          aws s3 cp --region $AWS_REGION ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+
+      # Deploy to EC2
+      - name: Deploy
+        run: aws deploy create-deployment
+          --application-name slub-client
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name develop
+          --s3-location bucket=$S3_BUCKET_NAME,key=$PROJECT_NAME/$GITHUB_SHA.zip,bundleType=zip
+

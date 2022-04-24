@@ -29,7 +29,13 @@
     "start": "set Port=3000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:watch": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test:watch"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +56,7 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.15"
+    "@types/styled-components": "^5.1.15",
+    "husky": "^7.0.4"
   }
 }
