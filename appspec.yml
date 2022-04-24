@@ -7,13 +7,13 @@ files:
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu/chickenmayo
+  - object: /home/ubuntu
     owner: ubuntu
     group: ubuntu
     mode: 755
 
 hooks:
   AfterInstall:
-    - location: deploy.sh
+    - location: script/deploy.sh
       timeout: 180
       runas: root
