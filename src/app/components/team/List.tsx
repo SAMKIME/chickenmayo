@@ -84,6 +84,7 @@ const ContentWrap = styled.div`
         border-bottom: 1px solid #DFE2E4;
 
         figure {
+          cursor: pointer;
           margin: 0 2rem 1.5rem 0;
           width: 13.75rem;
           height: 10rem;
@@ -99,6 +100,7 @@ const ContentWrap = styled.div`
           font-family: Spoqa Han Sans Neo, sans-serif;
 
           h3 {
+            cursor: pointer;
             font-style: normal;
             font-weight: 700;
             font-size: 1.25rem;
@@ -155,6 +157,7 @@ const ContentWrap = styled.div`
 `;
 
 const TeamList = () => {
+    const naviagte = useNavigate();
 
     const [teamSearchList, setTeamSearchList] = useState(Array(5).fill(""));
     const [scrollFlag, setScrollFlag] = useState(false);
@@ -187,7 +190,7 @@ const TeamList = () => {
         return (
             teamSearchList.map((item: any, idx: number) => {
                 return (
-                    <li key={idx}>
+                    <li key={idx} onClick={() => naviagte("/team/detail")}>
                         <figure style={{backgroundImage: `url(${TeamLogo})`}}/>
                         <div className="list-content">
                             <h3>삼김이 (SAMKIME)</h3>

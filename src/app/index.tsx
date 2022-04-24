@@ -23,6 +23,7 @@ const Root: React.FC = () => (
                 <Route path="detail" element={<TeamDetail/>}>
                 {/*<Route path="detail">*/}
                     <Route path=":id" element={<TeamDetail/>}/>
+                    <Route path=":id/:tab" element={<TeamDetail/>}/>
                 </Route>
             </Route>
             {/*<Route path="*" element={<Navigate replace to=""/>}/>*/}

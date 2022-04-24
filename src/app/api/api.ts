@@ -19,7 +19,7 @@ function getAccessTokenHeader() {
  */
 export const getUserInfo = async () => {
     try {
-        return await apiAxios.get('/users', getAccessTokenHeader());
+        return await apiAxios.get('/hello', getAccessTokenHeader());
     } catch (e) {
         Utils.moveLogin();
     }

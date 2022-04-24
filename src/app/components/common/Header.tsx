@@ -2,8 +2,11 @@ import React from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import HeaderLogo from "../../assets/img/headerLogo.svg";
+import HeaderWhiteLogo from "../../assets/img/headerLogo_w.svg";
 import BtnAlarm from "../../assets/img/btnAlarm.svg";
+import BtnWhiteAlarm from "../../assets/img/btnAlarm_w.svg";
 import BtnInfo from "../../assets/img/btnInfo.svg";
+import BtnWhiteInfo from "../../assets/img/btnInfo_w.svg";
 
 const HeaderWrap = styled.div`
   position: absolute;
@@ -99,21 +102,21 @@ const Header = ({fixed, teamHeaderClass}: HeaderProps) => {
         <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}} className={teamHeaderClass ? " team" : ""}>
             <div className="logo">
                 <Link to={"/main"}>
-                    <img src={HeaderLogo}/>
+                    <img src={teamHeaderClass ? HeaderWhiteLogo : HeaderLogo}/>
                 </Link>
             </div>
             <UtilWrap>
                 <li className="active">
                     <a className="btn_alarm">
                     <span>
-                        <img src={BtnAlarm}/>
+                        <img src={teamHeaderClass ? BtnWhiteAlarm : BtnAlarm}/>
                     </span>
                     </a>
                 </li>
                 <li>
                     <a className="btn_info">
                     <span>
-                        <img src={BtnInfo}/>
+                        <img src={teamHeaderClass ? BtnWhiteInfo : BtnInfo}/>
                     </span>
                     </a>
                 </li>

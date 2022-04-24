@@ -126,7 +126,7 @@ const Login = () => {
      * 소셜 로그인
      */
     const socialLogin = (type: string) => {
-        window.open(`http://localhost:8080/oauth2/authorization/${type}?redirect_uri=http://localhost:3000/login`);
+        window.open(`http://13.125.227.179:8080/oauth2/authorization/${type}?redirect_uri=http://localhost:3000/login`);
     };
 
     return (

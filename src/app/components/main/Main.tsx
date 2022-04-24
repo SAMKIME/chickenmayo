@@ -222,12 +222,17 @@ const Main = () => {
         }
     }, []);
 
+    const moveTeamDetail = (id: number) => {
+        // todo 팀 상세 작업
+        navigate("/team/detail");
+    }
+
     const renderFindTeamList = () => {
         let temp = Array(8).fill(0);
         return (
             temp.map((item: any, idx: number) => {
                 return (
-                    <li key={idx}>
+                    <li key={idx} onClick={() => moveTeamDetail(0)}>
                         <img src={TempTeamLogo}/>
                         <div className="team-content">
                             <h3>신길동 전우회</h3>
@@ -256,11 +261,11 @@ const Main = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="banner-wrap">
-                        <div className="banner">
-                            <div className="banner-list"></div>
-                        </div>
-                    </div>
+                    {/*<div className="banner-wrap">*/}
+                    {/*    <div className="banner">*/}
+                    {/*        <div className="banner-list"></div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className="find-team-wrap">
                         <div className="find-team-filter">
                             <Filter/>
