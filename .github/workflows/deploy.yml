@@ -3,8 +3,6 @@ name: Fronted Deploy
 
 # Event 감지
 on:
-  push:
-    branches: [feature/SLUB-60]
   pull_request:
     branches: [master]
 
