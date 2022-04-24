@@ -140,7 +140,7 @@ const ContentWrap = styled.div`
             font-family: Spoqa Han Sans Neo, sans-serif;
             font-style: normal;
             font-weight: 500;
-            font-size: 16px;
+            font-size: 1rem;
             line-height: 23px;
             color: #263055;
 

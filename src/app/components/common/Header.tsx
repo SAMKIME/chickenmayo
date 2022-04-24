@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import HeaderLogo from "../../assets/img/headerLogo.svg";
@@ -7,6 +7,8 @@ import BtnAlarm from "../../assets/img/btnAlarm.svg";
 import BtnWhiteAlarm from "../../assets/img/btnAlarm_w.svg";
 import BtnInfo from "../../assets/img/btnInfo.svg";
 import BtnWhiteInfo from "../../assets/img/btnInfo_w.svg";
+import MyAlarm from "./MyAlarm";
+import MyInfo from "./MyInfo";
 
 const HeaderWrap = styled.div`
   position: absolute;
@@ -54,11 +56,11 @@ const UtilWrap = styled.ul`
     list-style: none;
     border-radius: 2rem;
 
-    &:hover {
+    &:hover, &.active {
       background: #E0E0E0;
     }
 
-    &.active {
+    &.new-alarm {
       ::after {
         content: '';
         margin-bottom: 1.375rem;
@@ -97,31 +99,59 @@ interface HeaderProps {
 }
 
 const Header = ({fixed, teamHeaderClass}: HeaderProps) => {
+    const [myAlarmModal, setMyAlarmModal] = useState({
+        active: false,
+        offsetLeft: 0,
+    });
+    const [myInfoModal, setMyInfoModal] = useState({
+        active: false,
+        offsetLeft: 0,
+    });
+
+    const handleMyModal = (e: any, type: string) => {
+        if (type === "alarm") {
+            setMyAlarmModal({
+                active: !myAlarmModal.active,
+                offsetLeft: e.target.offsetLeft,
+            });
+        } else {
+            setMyInfoModal({
+                active: !myInfoModal.active,
+                offsetLeft: e.target.offsetLeft,
+            });
+        }
+    };
 
     return (
-        <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}} className={teamHeaderClass ? " team" : ""}>
-            <div className="logo">
-                <Link to={"/main"}>
-                    <img src={teamHeaderClass ? HeaderWhiteLogo : HeaderLogo}/>
-                </Link>
-            </div>
-            <UtilWrap>
-                <li className="active">
-                    <a className="btn_alarm">
+        <>
+            <HeaderWrap style={{position: fixed ? "fixed" : "absolute"}} className={teamHeaderClass ? " team" : ""}>
+                <div className="logo">
+                    <Link to={"/main"}>
+                        <img src={teamHeaderClass ? HeaderWhiteLogo : HeaderLogo}/>
+                    </Link>
+                </div>
+                <UtilWrap>
+                    <li className={"new-alarm" + (myAlarmModal.active ? " active" : "")}>
+                        <a className="btn_alarm" onClick={(e) => handleMyModal(e, "alarm")}>
                     <span>
                         <img src={teamHeaderClass ? BtnWhiteAlarm : BtnAlarm}/>
                     </span>
-                    </a>
-                </li>
-                <li>
-                    <a className="btn_info">
+                        </a>
+                    </li>
+                    <li className={myInfoModal.active ? " active" : ""}>
+                        <a className="btn_info" onClick={(e) => handleMyModal(e, "info")}>
                     <span>
                         <img src={teamHeaderClass ? BtnWhiteInfo : BtnInfo}/>
                     </span>
-                    </a>
-                </li>
-            </UtilWrap>
-        </HeaderWrap>
+                        </a>
+                    </li>
+                </UtilWrap>
+            </HeaderWrap>
+            <MyAlarm active={myAlarmModal.active}
+                     offsetLeft={myAlarmModal.offsetLeft}/>
+            <MyInfo active={myInfoModal.active}
+                    offsetLeft={myInfoModal.offsetLeft}/>
+        </>
     );
 };
 
